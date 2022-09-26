@@ -9,8 +9,6 @@ namespace Sender.Services
     public class MessageSenderService : ISendMessageService
     {
         private IConfiguration _config;
-        static ServiceBusSender sender;
-
         public MessageSenderService(IConfiguration config)
         {
             _config = config;
@@ -39,7 +37,7 @@ namespace Sender.Services
             string _connString = _config.GetConnectionString("AzureConnString");
             string _queueName = _config.GetConnectionString("AzureQueueName");
             ServiceBusClient client = new ServiceBusClient(_connString);
-            sender = client.CreateSender(_queueName);
+            ServiceBusSender sender = client.CreateSender(_queueName);
             try
             {
                 ServiceBusMessage messageAzure = new ServiceBusMessage(message.myMessage);
